@@ -1,67 +1,111 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import * as React from "react"
+import {
+  AudioWaveform,
+  Bookmark,
+  Command,
+  Frame,
+  GalleryVerticalEnd,
+  Map,
+  Twitter,
+  Podcast,
+  PieChart,
+  Youtube
+} from "lucide-react"
 
+import { NavMain } from "@/components/nav-main"
+import { NavProjects } from "@/components/nav-projects"
+import { NavUser } from "@/components/nav-user"
+import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarRail,
 } from "@/components/ui/sidebar"
 
-// Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
+// This is sample data.
+const data = {
+  user: {
+    name: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
   },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-]
+  teams: [
+    {
+      name: "Acme Inc",
+      logo: GalleryVerticalEnd,
+      plan: "Enterprise",
+    },
+    {
+      name: "Acme Corp.",
+      logo: AudioWaveform,
+      plan: "Startup",
+    },
+    {
+      name: "Evil Corp.",
+      logo: Command,
+      plan: "Free",
+    },
+  ],
+  navMain: [
+    {
+      title: "All Bookmarks",
+      url: "#",
+      icon: Bookmark,
+      isActive: true,
+    },
+    {
+      title: "Twitter",
+      url: "#",
+      icon: Twitter,
+    },
+    {
+      title: "Youtube",
+      url: "#",
+      icon: Youtube,
+      badge: "10",
+    },
+    {
+      title: "Podcast",
+      url: "#",
+      icon: Podcast,
+      badge: "10",
+    },
+  ],
+  projects: [
+    {
+      name: "Design Engineering",
+      url: "#",
+      icon: Frame,
+    },
+    {
+      name: "Sales & Marketing",
+      url: "#",
+      icon: PieChart,
+    },
+    {
+      name: "Travel",
+      url: "#",
+      icon: Map,
+    },
+  ],
+}
 
-export function AppSidebar() {
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        <TeamSwitcher teams={data.teams} />
+      </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <NavMain items={data.navMain} />
+        <NavProjects projects={data.projects} />
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   )
 }
